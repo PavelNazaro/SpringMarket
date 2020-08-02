@@ -31,12 +31,4 @@ public class ProductFilter {
             filterDefinition.append("&search=").append(str);
         }
     }
-
-    public Specification<Product> getSpec() {
-        return spec;
-    }
-
-    public StringBuilder getFilterDefinition() {
-        return filterDefinition;
-    }
 }
