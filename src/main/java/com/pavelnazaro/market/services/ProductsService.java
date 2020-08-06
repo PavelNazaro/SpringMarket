@@ -1,6 +1,7 @@
 package com.pavelnazaro.market.services;
 
 import com.pavelnazaro.market.entities.Product;
+import com.pavelnazaro.market.entities.dtos.ProductDto;
 import com.pavelnazaro.market.exceptions.ProductNotFoundException;
 import com.pavelnazaro.market.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,9 @@ public class ProductsService {
 
     public boolean existsById(Long id) {
         return productsRepository.existsById(id);
+    }
+
+    public List<ProductDto> getDtoData() {
+        return productsRepository.findAllBy();
     }
 }
