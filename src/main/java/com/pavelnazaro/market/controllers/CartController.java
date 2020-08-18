@@ -1,7 +1,6 @@
 package com.pavelnazaro.market.controllers;
 
 import com.pavelnazaro.market.bins.Cart;
-import com.pavelnazaro.market.bins.ProductsInCart;
 import com.pavelnazaro.market.services.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +25,14 @@ public class CartController {
     @GetMapping
     public String showCart(Model model){
         model.addAttribute("cart", cart);
+        model.addAttribute("productsService", productsService);
         return "cart";
     }
 
     @GetMapping("/add")
     public String addToCart(@RequestParam Long id, @RequestParam int count){
-        cart.add(new ProductsInCart(productsService.findById(id), count));
-        return "redirect:/cart";
+        cart.add(productsService.findById(id), count);
+        return "redirect:/products";
     }
 
     @GetMapping("/delete/{id}")

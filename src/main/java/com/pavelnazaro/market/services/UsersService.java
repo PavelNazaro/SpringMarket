@@ -36,6 +36,14 @@ public class UsersService implements UserDetailsService {
         return usersRepository.findOneByPhone(phone);
     }
 
+    public User findOneByPhone(String phone) {
+        return usersRepository.findOneByPhone(phone).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
+    }
+
+    public Iterable<User> findAllUsers(){
+        return usersRepository.findAll();
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

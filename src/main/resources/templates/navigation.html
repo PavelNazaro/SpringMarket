@@ -26,6 +26,18 @@
                     <a class="nav-link" th:href="@{'/about'}" th:text="#{nav.about}"></a>
                 </li>
 
+                <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${activeTab == 'Profile' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{'/profile'}" th:text="#{nav.profile}"></a>
+                </li>
+
+                <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${activeTab == 'Cart' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{'/cart'}" th:text="#{nav.cart}"></a>
+                </li>
+
+                <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${activeTab == 'Users' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{'/users'}" th:text="#{nav.users}"></a>
+                </li>
+
                 <li sec:authorize="isAuthenticated()" class="nav-item">
                     <form th:action="@{/logout}" method="POST">
                         <button id="navLogout" class="btn btn-outline-secondary" type="submit"  th:text="#{nav.logout}"></button>

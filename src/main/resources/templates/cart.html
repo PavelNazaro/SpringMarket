@@ -13,22 +13,26 @@
 
 <body>
 <div class="container">
-    <div th:replace="~{navigation :: navigation(Market)}"/>
+    <div th:replace="~{navigation :: navigation(Cart)}"/>
 
     <h2>Корзина:</h2>
     <table class="table table-striped">
         <thead>
         <tr>
             <td>Название</td>
+            <td>Цена</td>
             <td>Количество</td>
+            <td>Стоимость</td>
             <td></td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="c : ${cart.getListProducts()}">
-            <td th:text="${c.getProduct().getTitle()}"></td>
-            <td th:text="${c.getCount()}"></td>
-            <td><a th:href="@{'/cart/delete/' + ${c.getProduct().getId()}}">Удалить</a></td>
+            <td th:text="${productsService.findById(c.getKey()).getTitle()}"></td>
+            <td th:text="${productsService.findById(c.getKey()).getPrice()}"></td>
+            <td th:text="${c.getValue()}"></td>
+            <td th:text="${productsService.findById(c.getKey()).getPrice() * c.getValue()}"></td>
+            <td><a th:href="@{'/cart/delete/' + ${c.getKey()}}">Удалить</a></td>
         </tr>
         </tbody>
     </table>

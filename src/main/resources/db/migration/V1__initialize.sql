@@ -27,6 +27,7 @@ create table users (
   email                 VARCHAR(50) UNIQUE,
   first_name            VARCHAR(50),
   last_name             VARCHAR(50),
+  is_locked             boolean,
   PRIMARY KEY (id)
 );
 
@@ -52,12 +53,15 @@ insert into roles (name)
 values
 ('ROLE_CUSTOMER'), ('ROLE_MANAGER'), ('ROLE_ADMIN');
 
-insert into users (phone, password, first_name, last_name, email)
+insert into users (phone, password, first_name, last_name, email, is_locked)
 values
-('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com');
+('11111111','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','admin','admin','admin@gmail.com', 'false'),
+('222','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','Ivanov','Ivan','ivan@gmail.com', 'false'),
+('333','$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i','Sidirov','Petr','sp@gmail.com', 'true');
 
 insert into users_roles (user_id, role_id)
 values
 (1, 1),
 (1, 2),
-(1, 3);
+(1, 3),
+(2, 1);
