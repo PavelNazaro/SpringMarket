@@ -18,7 +18,7 @@
     <h2>July Market</h2>
     <h4>Фильтр</h4>
 
-    <form id="form1" th:accept="@{'/products'}" method="get">
+    <form th:accept="@{'/products'}" method="get">
         <div class="form-group">
             <label>Название</label>
             <input th:value="${param.title != null ? param.title : ''}" class="form-control form-control-sm"
@@ -63,14 +63,7 @@
             <td th:text="${p.id}"></td>
             <td th:text="${p.title}"></td>
             <td th:text="${p.price}"></td>
-            <td><a th:href="@{'/products/edit/' + ${p.id}}">Редактировать</a></td>
-            <td>
-<!--                <input type="number" class="form-control form-control-sm" name="count" value="1">-->
-<!--                <form id="form2" th:accept="@{'/cart/add/}" method="get">-->
-<!--                    <button type="submit" class="btn btn-primary">Добавить в корзину</button>-->
-<!--                </form>-->
-                <a th:href="@{'/cart/add?id=' + ${p.id} + '&count=1'}" type="button" class="btn btn-warning">Добавить в корзину</a>
-            </td>
+            <td><a class="btn btn-primary" th:href="@{'/cart/add/' + ${p.id}}">Добавить в корзину</a></td>
         </tr>
         </tbody>
     </table>
