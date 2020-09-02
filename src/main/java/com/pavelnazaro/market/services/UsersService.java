@@ -2,7 +2,7 @@ package com.pavelnazaro.market.services;
 
 import com.pavelnazaro.market.entities.Role;
 import com.pavelnazaro.market.entities.User;
-import com.pavelnazaro.market.repositories.RolesRepository;
+import com.pavelnazaro.market.entities.dtos.SystemUser;
 import com.pavelnazaro.market.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,9 +10,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +22,13 @@ import java.util.stream.Collectors;
 @Service
 public class UsersService implements UserDetailsService {
     private UsersRepository usersRepository;
-    private RolesRepository rolesRepository;
+    private RolesService rolesService;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     public void setUsersRepository(UsersRepository usersRepository) {
@@ -28,20 +36,12 @@ public class UsersService implements UserDetailsService {
     }
 
     @Autowired
-    public void setRolesRepository(RolesRepository rolesRepository) {
-        this.rolesRepository = rolesRepository;
+    public void setRolesService(RolesService rolesService) {
+        this.rolesService = rolesService;
     }
 
     public Optional<User> findByPhone(String phone) {
         return usersRepository.findOneByPhone(phone);
-    }
-
-    public User findOneByPhone(String phone) {
-        return usersRepository.findOneByPhone(phone).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
-    }
-
-    public Iterable<User> findAllUsers(){
-        return usersRepository.findAll();
     }
 
     @Override
@@ -50,6 +50,21 @@ public class UsersService implements UserDetailsService {
         User user = usersRepository.findOneByPhone(username).orElseThrow(() -> new UsernameNotFoundException("Invalid username or password"));
         return new org.springframework.security.core.userdetails.User(user.getPhone(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
+    }
+
+    @Transactional
+    public User save(SystemUser systemUser) {
+        User user = new User();
+        findByPhone(systemUser.getPhone()).ifPresent((u) -> {
+            throw new RuntimeException("User with phone " + systemUser.getPhone() + " is already exist");
+        });
+        user.setPhone(systemUser.getPhone());
+        user.setPassword(passwordEncoder.encode(systemUser.getPassword()));
+        user.setFirstName(systemUser.getFirstName());
+        user.setLastName(systemUser.getLastName());
+        user.setEmail(systemUser.getEmail());
+        user.setRoles(Arrays.asList(rolesService.findByName("ROLE_CUSTOMER")));
+        return usersRepository.save(user);
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

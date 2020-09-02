@@ -16,9 +16,9 @@
     <form th:action="@{/products/edit}" th:object="${product}" method="POST">
         <input hidden th:field="*{id}"/>
         <br>
-        Название: <input th:field="*{title}"/>
+        Name: <input th:field="*{title}"/>
         <br>
-        Цена: <input th:field="*{price}"/>
+        Score: <input th:field="*{price}"/>
         <br>
         <input type="submit" value="Сохранить" />
     </form>

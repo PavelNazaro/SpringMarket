@@ -3,6 +3,7 @@ package com.pavelnazaro.market.configs;
 import com.pavelnazaro.market.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
+@Order(100)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UsersService usersService;
 
@@ -23,8 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/profile/**").authenticated()
-                .antMatchers("/orders/**").authenticated()
+                .antMatchers("/profile/*").authenticated()
+                .antMatchers("/orders/*").hasAnyRole("ADMIN")
+                .antMatchers("/api/v1/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
