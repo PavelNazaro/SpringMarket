@@ -1,14 +1,5 @@
 var app = angular.module('app', ['ngRoute']);
-var contextPath = 'http://localhost:8189/market';
-
-app.controller('logoutController', function($scope,$http){
-    $scope.logout = function(){
-        //Just clear values from scope
-        $scope.username = '';
-        $scope.password = '';
-        $http.post(contextPath + '/logout');
-    }
-})
+var contextPath = 'http://localhost:8189/market'
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -26,7 +17,7 @@ app.config(function ($routeProvider) {
 });
 
 app.controller('shopController', function ($scope, $http) {
-    // window.btoa('11111111:100')
+    window.btoa('11111111:100')
 
     fillTable = function () {
         $http.get(contextPath + '/api/v1/products')
@@ -49,7 +40,7 @@ app.controller('addOrEditProductController', function ($scope, $http, $routePara
     }
 
     $scope.createOrUpdateProduct = function() {
-        // window.btoa('11111111:100')
+        window.btoa('11111111:100')
 
         if($scope.productFromForm.id == null) {
             $http.post(contextPath + '/api/v1/products', $scope.productFromForm).then(function (response) {
