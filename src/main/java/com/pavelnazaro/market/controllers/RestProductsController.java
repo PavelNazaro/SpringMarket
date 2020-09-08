@@ -7,6 +7,8 @@ import com.pavelnazaro.market.services.ProductsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +45,10 @@ public class RestProductsController {
 //    @ApiImplicitParams(value = {
 //            @ApiImplicitParam(name = "demo", type = "String", required = false, paramType = "query")
 //    })
-    public ResponseEntity<?> getOneProduct(@PathVariable @ApiParam("Id of the product to be requested. Cannot be empty") Long id) {
+    public ResponseEntity<?> getOneProduct(@PathVariable @ApiParam("Id of the product to be requested. Cannot be empty") Long id) throws JSONException {
         if (!productsService.existsById(id)) {
-            throw new ProductNotFoundException("Product not found, id: " + id);
+//            throw new ProductNotFoundException("Product not found, id: " + id);
+            return new ResponseEntity<>(JSONObject.quote("Product not found, id: " + id), HttpStatus.OK);
         }
         return new ResponseEntity<>(productsService.findById(id), HttpStatus.OK);
     }
@@ -66,6 +69,7 @@ public class RestProductsController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Creates a new product")
     public Product saveNewProduct(@RequestBody Product product) {
+        System.out.println("HERE1");
         if (product.getId() != null) {
             product.setId(null);
         }
@@ -75,7 +79,9 @@ public class RestProductsController {
     @PutMapping(consumes = "application/json", produces = "application/json")
     @ApiOperation("Modifies an existing product")
     public ResponseEntity<?> modifyProduct(@RequestBody Product product) {
+        System.out.println("HERE2");
         if (product.getId() == null || !productsService.existsById(product.getId())) {
+            System.out.println("HERE3");
             throw new ProductNotFoundException("Product not found, id: " + product.getId());
         }
         if (product.getPrice().doubleValue() < 0.0) {

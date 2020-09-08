@@ -1,7 +1,7 @@
 var app = angular.module('app', ['ngRoute']);
 var contextPath = 'http://localhost:8189/market'
 
-app.controller('addOrEditProductController', function ($scope, $http, $location) {
+app.controller('addOrEditProductController', function ($scope, $http) {
     $scope.createOrUpdateProduct = function() {
         window.btoa('11111111:100')
 

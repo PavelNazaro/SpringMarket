@@ -34,8 +34,13 @@ app.controller('addOrEditProductController', function ($scope, $http, $routePara
 
     if ($routeParams.id != null) {
         $http.get(advertsPath + '/' + $routeParams.id).then(function (response) {
-            $scope.productFromForm = response.data;
-            console.log($scope.productFromForm);
+            console.log(response);
+            if (typeof response.data === 'string') {
+                alert(response.data)
+            } else {
+                $scope.productFromForm = response.data;
+                console.log($scope.productFromForm);
+            }
         });
     }
 
