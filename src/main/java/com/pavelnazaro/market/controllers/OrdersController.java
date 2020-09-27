@@ -15,6 +15,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/orders")
 @AllArgsConstructor
+@Deprecated
 public class OrdersController {
     private UsersService usersService;
     private OrdersService ordersService;

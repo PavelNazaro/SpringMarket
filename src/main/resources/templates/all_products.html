@@ -18,7 +18,7 @@
     <h2>July Market</h2>
     <h4>Фильтр</h4>
 
-    <form th:accept="@{'/products'}" method="get">
+    <form th:action="@{'/products'}" method="get">
         <div class="form-group">
             <label>Название</label>
             <input th:value="${param.title != null ? param.title : ''}" class="form-control form-control-sm"

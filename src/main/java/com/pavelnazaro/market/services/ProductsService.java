@@ -2,7 +2,6 @@ package com.pavelnazaro.market.services;
 
 import com.pavelnazaro.market.entities.Product;
 import com.pavelnazaro.market.entities.dtos.ProductDto;
-import com.pavelnazaro.market.exceptions.ProductNotFoundException;
 import com.pavelnazaro.market.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductsService {
@@ -25,8 +25,8 @@ public class ProductsService {
         return productsRepository.save(product);
     }
 
-    public Product findById(Long id) {
-        return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found product with id = " + id));
+    public Optional<Product> findById(Long id) {
+        return productsRepository.findById(id);
     }
 
     public List<Product> findAll() {
@@ -52,7 +52,7 @@ public class ProductsService {
         return productsRepository.existsById(id);
     }
 
-    public List<ProductDto> getDtoData() {
+    public List<ProductDto> findAllDtos() {
         return productsRepository.findAllBy();
     }
 }
