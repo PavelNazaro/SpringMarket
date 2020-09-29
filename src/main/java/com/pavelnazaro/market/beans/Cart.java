@@ -68,7 +68,7 @@ public class Cart {
     public void recalculate() {
         price = new BigDecimal(0.0);
         for (OrderItem i : items) {
-            price = price.add(i.getPrice());
+            price = price.add(i.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())));
         }
     }
 }
