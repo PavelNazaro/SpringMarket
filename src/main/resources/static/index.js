@@ -30,6 +30,9 @@
             })
             .when('/create_order_result', {
                 templateUrl: 'create_order_result/create_order_result.html'
+            })
+            .when('/paypal', {
+                templateUrl: 'paypal/paypal.html'
             });
 
         $httpProvider.interceptors.push(function ($q, $location) {

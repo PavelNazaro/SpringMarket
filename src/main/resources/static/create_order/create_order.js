@@ -1,12 +1,12 @@
 angular.module('app').controller('createOrderController', function ($scope, $http, $location) {
     const contextPath = 'http://localhost:8189/market';
 
-    fillTable = function () {
-        $http.get(contextPath + '/api/v1/cart')
-            .then(function (response) {
-                $scope.CartList = response.data;
-            });
-    };
+    // fillTable = function () {
+    //     $http.get(contextPath + '/api/v1/cart')
+    //         .then(function (response) {
+    //             $rootScope.CartList = response.data;
+    //         });
+    // };
 
     $scope.confirmOrder = function () {
         console.log($scope.userinfo.address);
@@ -19,5 +19,5 @@ angular.module('app').controller('createOrderController', function ($scope, $htt
         });
     }
 
-    fillTable();
+    // fillTable();
 });
